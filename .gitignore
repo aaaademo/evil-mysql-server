@@ -1,3 +1,5 @@
 *.zip
 evil-mysql
 dist/*
+.DS_Store
+**/.DS_Store
