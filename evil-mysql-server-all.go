@@ -204,6 +204,8 @@ func handleAccept(conn net.Conn) {
 			log.Printf("[x] decode request query error : %s\n", err.Error())
 			return
 		}
+		// log.Printf("[-] request query statement: %s\n", requestQuery.Statement)
+		// log.Printf("[-] request query Command: %d\n", requestQuery.Command)
 		if requestQuery.Command == 3 {
 			log.Printf("[-] request query statement: %s\n", requestQuery.Statement)
 
@@ -283,6 +285,21 @@ func handleAccept(conn net.Conn) {
 				Write(conn, BuildPacket(9, BuildColumnValuesPacket([][]byte{[]byte("init_connect"), []byte("")})))
 				Write(conn, BuildPacket(10, BuildColumnValuesPacket([][]byte{[]byte("auto_increment_increment"), []byte("1")})))
 				Write(conn, BuildPacket(11, EOF))
+				log.Printf("[√] send mysql-server ENV success.\n")
+			} else if strings.Contains(requestQuery.Statement, "SELECT @@session.auto_increment_increment") {
+				// send column count packet
+				Write(conn, BuildPacket(1, []byte{0x01}))
+				// build column packet
+				var columns = make([]byte, 0)
+				columns = append(columns, BuildPacket(2, BuildColumnHeaderPacket("a"))...)
+				// send columns packet
+				Write(conn, columns)
+				Write(conn, BuildPacket(4, EOF))
+				// send column values packet
+				Write(conn, BuildPacket(5, BuildColumnValuesPacket([][]byte{[]byte("1")})))
+				Write(conn, BuildPacket(6, EOF))
+
+				log.Printf("[√] send auto_increment_increment success.\n")
 			} else {
 				Write(conn, BuildPacket(0, OK))
 				Write(conn, BuildPacket(1, EOF))

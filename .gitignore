@@ -6,3 +6,4 @@ dist/*
 .DS_Store?
 ysoJar/ysuserial-su18-mod*.jar
 ysoJar/*
+evil-mysql-server-all
